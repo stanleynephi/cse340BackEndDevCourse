@@ -1,0 +1,15 @@
+<!--ejs template for the page layout which include patials-->
+<!DOCTYPE html>
+<html lang="en">
+<%- include ('../partials/head') %>
+<body>
+   <div class="headerandnavigation">
+       <%- include ('../partials/header') %>
+       <%- include ('../partials/navbar') %>
+   </div>
+   <main>
+       <%- body  %>
+   </main>
+   <%- include ('../partials/footer') %>
+</body>
+</html>

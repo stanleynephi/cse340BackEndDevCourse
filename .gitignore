@@ -14,3 +14,7 @@ node_modules
 
 # .DS_Store is only for Mac users
 **/.DS_Store
+
+# Readme.md is a file that contains information about the project.
+# It is not necessary to upload it to github, but you can if you want.
+README.md
