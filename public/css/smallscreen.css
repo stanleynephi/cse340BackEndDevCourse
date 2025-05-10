@@ -1,0 +1,120 @@
+@media only screen and (max-width: 700px){
+    *{
+        box-sizing: border-box;
+    }
+
+      body button{
+        background-color: lightblue;
+        width: 10rem;
+        height: 2rem;
+        outline: none;
+        border: none;
+        border-radius: 10px;
+      }
+      
+      body a{
+        text-decoration: none;
+        color: black;
+      }
+      
+      .container{
+        width: 100%;
+        background-color: white;
+      }
+      
+      #top-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      #navigations{
+        background-color: black;
+        color: white;
+      }
+      
+      #navigations ul{
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      #navigations li{
+        padding: 0.9rem 1rem;
+      }
+      
+      .herowelcome{
+        height: 27rem;
+        background:url(../images/vehicles/delorean.jpg) no-repeat center center;
+        background-size: contain;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: start;
+      }
+      
+      .herotext{
+        padding: 1rem;
+      }
+      
+      .heroreview{
+        position: absolute;
+        top: 35%;
+        left: 20%;
+        background-color: white;
+        opacity: .9;
+        padding: 2rem;
+        border: 1px solid black;
+        border-radius: 10px;
+      }
+      
+      .upgradesandreviews{
+        margin: 10px 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-self: center;
+      }
+      
+      .upgrades{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 20rem;
+        padding: 1rem;
+      }
+      
+      .upgrades>ul{
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        justify-content: start;
+        align-items: start;;
+      }
+      
+      .upgrades ul>li{
+        background-color: lightblue;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        width: 8rem;
+        height: 8rem;
+      }
+      
+      
+      .reviews{
+        width: 25rem;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
+      }    
+}
