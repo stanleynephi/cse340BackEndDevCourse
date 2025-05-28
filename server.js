@@ -10,6 +10,8 @@ const expresslayout = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const baseController = require("./controllers/basecontroller")
+const inventoryRoute = require("./routes/inventoryroute")
 
 
 
@@ -31,10 +33,11 @@ app.use(static)
 /**route to the index page of the application 
  * app.get is used to get the request from the client and then send the response back by rendering the index.ejs file.
 */
-app.get('/', (req,res)=> {
-  res.render('index', {title: "Home"})
-})
 
+/**controller route */
+app.get('/', baseController.renderHomePage)
+/**route to the inventory page */
+app.use('/inv', inventoryRoute)
 
 
 

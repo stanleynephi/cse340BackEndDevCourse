@@ -40,24 +40,29 @@
     align-items: center;
   }
   
-  #navigations{
+  #navigations {
+    display: flex;
     background-color: black;
-    color: white;
-    height: 3rem;
+    width: 100%;
   }
-  
+
   #navigations ul{
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+    width: 100%;
     display: flex;
     justify-content: space-around;
-    align-items: start;
+    align-items: center;
   }
-  
-  #navigations li{
-    padding: 0.9rem 1rem;
+
+  #navigations ul li{
+    list-style: none;
+    padding: 1rem auto;
   }
+
+  #navigations ul li a{
+    color: white;
+    font-weight: bold;
+  }
+
   
   .herowelcome{
     height: 27rem;
