@@ -12,6 +12,7 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/basecontroller")
 const inventoryRoute = require("./routes/inventoryroute")
+const utilities = require("./utilities/")
 
 
 
@@ -34,11 +35,37 @@ app.use(static)
  * app.get is used to get the request from the client and then send the response back by rendering the index.ejs file.
 */
 
-/**controller route */
-app.get('/', baseController.renderHomePage)
+/**controller route to the homepage with an error handler*/
+app.get('/',utilities.errorHandling(baseController.renderHomePage))
 /**route to the inventory page */
 app.use('/inv', inventoryRoute)
+/**route for a 404 error */
+app.use(async (req,res,next) => {
+  next({
+    status: 404,
+    message: `Page not found at ${req.originalUrl}`})
+})
 
+/**error handler using async method */
+app.use(async(error,req,res,next) => {
+  /**style the error view using navigation and error message with
+   * a title for the error page.
+   */
+  let nav = await utilities.getNavigations()
+  /**console log the error message first to test to see if it does work indeed */
+  console.log(`error found at "${req.originalUrl}" : ${error.message}`)
+
+  /**conditional statement for the error found */
+  if(error.status === 404){ errorMessage = error.message} else {
+    errorMessage = "An unexpected error occurred. Please try again later."
+  }
+  /**render the error page with the title and navigation */
+  res.render('./error/error', {
+    title: "Error",
+    nav,
+    errorMessage
+  })
+})
 
 
 /* ***********************

@@ -69,6 +69,12 @@ utilities.buildgridDisplay = async function (data){
   return grid
 }
 
+
+/**robust error handler for the web application */
+utilities.errorHandling = fn => (req,res,next) => Promise.resolve(fn
+  (req,res,next)).catch(next)
+
+
 /**export the module. */
 module.exports = utilities
 
