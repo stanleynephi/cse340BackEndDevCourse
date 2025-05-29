@@ -1,4 +1,10 @@
 --this file contains the SQL code to create the tables and configure the database
+--0. create the account type enumerations
+CREATE TYPE public.account_type AS ENUM
+    ('client', 'admin');
+ALTER TYPE public.account_type
+    OWNER TO cse340database_h02a_user;
+
 
 --1. classification table
 CREATE TABLE public.classification (
@@ -230,38 +236,13 @@ VALUES   (
     5
   );
 
-
---7adding user account to the accout table
-INSERT INTO public.account(account_firstname,account_lastname,account_email,account_password)
-VALUES ('Tony','Stark','tony@starkent.com','Iam1ronM@n');
-
---8--update the account name type for tony
-update public.account set account_type = 'admin'
-where account_id = 1;
-
---9 delete statement for the account table to delete the tony stark account
-delete from public.account
-where account_id = 1
-
---10 update the small interior to a large interion using the replace statement for postgress
+--7 update the small interior to a large interion using the replace statement for postgress
 UPDATE public.inventory
 SET inv_description = REPLACE (inv_description, 'small interior', 'large interior')
-WHERE inv_id = 10
+WHERE inv_id = 10;
 
 
-11--inner join statement for the inventory that falls under sport
-SELECT  c.inv_id,
-        c.inv_make,
-        c.inv_model,
-        c.inv_year,
-        c.inv_description,
-        cls.classification_name
-FROM    public.inventory           AS c           -- your vehicle table
-INNER   JOIN public.classification AS cls
-        ON c.classification_id = cls.classification_id
-WHERE   cls.classification_name = 'Sport';
-
---12 --update the thumbnail path and image path.
+--8 update the thumbnail path and image path.
 UPDATE public.inventory
 SET inv_image = REPLACE (inv_image, '/images/','/images/vehicles/'),
 	inv_thumbnail = REPLACE (inv_thumbnail, '/images/', '/images/vehicles/');
