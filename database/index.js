@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'development'){
 else {
     /**create a connection pool without ssl */
     pool = new Pool({
-        connectionString: process.env.DATABASE_URL
+        connectionString: process.env.database
     });
 
     /**add a troubleshooting module to use during queries in the development */
