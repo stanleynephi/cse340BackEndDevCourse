@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'development'){
         /**determine how to connect to the database
          * add the database url to the .env file using the DATABASE_URL variable
          */
-        connectionString: process.env.DATABASE_URL,
+        connectionString: process.env.database,
         ssl: {
             rejectUnauthorized: false
         }
