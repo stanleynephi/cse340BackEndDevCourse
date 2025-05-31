@@ -69,11 +69,37 @@ utilities.buildgridDisplay = async function (data){
   return grid
 }
 
+/**function for structing the detail view for the website.*/
+utilities.buildcarDetailDisplay = async function (data) {
+  let car = data.rows[0]
+  let details
+  /**conditional statement for validation */
+  if (!car) {
+    return '<p>No car details found.</p>';
+  }
+  else{
+    details = `<div class= "car-details">
+      <div class="car-image-container">
+        <img src="${car.inv_image}" alt="Image of ${car.inv_make} ${car.inv_model}" />
+      </div>
+      <div class="car-info">
+        <p><strong>Price:</strong> $${new Intl.NumberFormat('en-US').format(car.inv_price)}</p>
+        <p><strong>Description:</strong> ${car.inv_description}</p>
+        <p><strong>Color:</strong> ${car.inv_color}</p>
+        <p><strong>Year:</strong> ${car.inv_year}</p>
+      </div>
+    </div>
+    `
+  }
+
+  return details;
+
+}
+
 
 /**robust error handler for the web application */
 utilities.errorHandling = fn => (req,res,next) => Promise.resolve(fn
   (req,res,next)).catch(next)
-
 
 /**export the module. */
 module.exports = utilities

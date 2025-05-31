@@ -1,0 +1,6 @@
+<!-- this contains the details page for the car details-->
+ <% if (title) { %>
+    <h1><%= title %></h1>
+    <%- carDetails %>
+<% } else {
+    res.redirect('/') }%>

@@ -23,7 +23,7 @@ async function getInventoryByClassification(classification_id) {
             `SELECT * FROM public.inventory AS i 
                 JOIN public.classification AS c 
                 ON i.classification_id = c.classification_id 
-                WHERE i.classification_id = $1`,
+                WHERE i.classification_ID = $1`,
             [classification_id]
         );
         console.log("Data fetched for classification ID:", classification_id, data);
@@ -34,5 +34,22 @@ async function getInventoryByClassification(classification_id) {
     }
 }
 
+async function getInventoryItemDetails(inv_id) {
+    /**sql select query to select everything about a car from the inventory using the car id */
+    try {
+        const data = await pool.query (
+            `SELECT * FROM public.inventory AS i
+                WHERE i.inv_id = $1`,
+            [inv_id]
+        );
+        console.log("Data fetched for inventory ID:", inv_id, data);
+        return data; // Return the rows of the result
+    }
+    catch (error) {
+        console.log("Error fetching inventory item details:", error);
+        throw error; // Re-throw the error to be handled by the calling function
+    }
+}
+
 /**export the function once done */
-module.exports = { inventoryClassifications, getInventoryByClassification }
+module.exports = { inventoryClassifications, getInventoryByClassification, getInventoryItemDetails };

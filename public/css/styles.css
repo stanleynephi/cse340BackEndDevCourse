@@ -131,6 +131,67 @@
   }
   
   
+  .car-details {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  text-transform: capitalize;
+}
+
+.car-content {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  flex-wrap: wrap; /* Responsive */
+}
+
+.car-image-container {
+  flex: 1 1 300px;
+}
+
+.car-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.car-info {
+  flex: 2 1 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.car-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.car-price {
+  font-size: 1.2rem;
+  color: #007BFF;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.car-description {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
   
   
   
