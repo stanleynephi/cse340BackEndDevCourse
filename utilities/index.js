@@ -43,7 +43,7 @@ utilities.buildgridDisplay = async function (data){
     return '<p>No items found.</p>';
   }
   else{
-    grid = '<ul class=""grid-display">'
+    grid = '<ul class="grid-display">'
     data.rows.forEach(vehicle => {
       grid += '<li>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id

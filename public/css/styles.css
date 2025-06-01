@@ -1,4 +1,4 @@
-@media only screen and (min-width: 700px){
+@media only screen and (min-width: 701px){
   body{
     background: url(../images/site/small_check.jpg) no-repeat center center fixed;
     font-family: Arial, sans-serif;
@@ -145,52 +145,52 @@
   align-items: center;
   gap: 1rem;
   text-transform: capitalize;
-}
+  }
 
-.car-content {
+  .car-content {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
   flex-wrap: wrap; /* Responsive */
-}
+  }
 
-.car-image-container {
+  .car-image-container {
   flex: 1 1 300px;
-}
+  }
 
-.car-image {
+  .car-image {
   width: 100%;
   height: auto;
   border-radius: 8px;
   object-fit: cover;
-}
+  }
 
-.car-info {
+  .car-info {
   flex: 2 1 400px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-}
+  }
 
-.car-title {
+  .car-title {
   font-size: 2rem;
   font-weight: bold;
   margin-bottom: 1rem;
   color: #222;
-}
+  }
 
-.car-price {
+  .car-price {
   font-size: 1.2rem;
   color: #007BFF;
   font-weight: 600;
   margin-bottom: 1rem;
-}
+  }
 
-.car-description {
+  .car-description {
   font-size: 1rem;
   color: #333;
   line-height: 1.6;
-}
+  }
 
   
   
