@@ -1,0 +1,8 @@
+<!--this contains the views for the login page-->
+<% if (title) { %>
+    <h1><%= title %></h1>
+     <%- messages() %>
+    <%- form %>
+<% } else {
+    res.redirect('/')
+} %>

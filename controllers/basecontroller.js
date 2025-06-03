@@ -4,10 +4,13 @@
 const utilities = require('../utilities/');
 const baseController = {};
 
+
 /**function to render the home page base on the query */
 baseController.renderHomePage = async function (req, res) {
     /**building the dynamic navigation from the utility section */
     const nav = await utilities.getNavigations()
+    /**flash message rendering */
+    req.flash('notice', 'Welcome to CSE Motors!');
     res.render('index', {
         title: 'Home',
         nav,

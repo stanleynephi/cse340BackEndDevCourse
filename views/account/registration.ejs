@@ -1,0 +1,17 @@
+<!-- this contains the views for the registration page -->
+<% if (title) { %>
+  <%- messages() %>
+
+  <% if (error) { %>
+    <ul class="notice">
+      <% error.array().forEach(err => { %>
+        <li><%= err.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <h1><%= title %></h1>
+  <%- form %>
+<% } else {
+  res.redirect('/')
+} %>

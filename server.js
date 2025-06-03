@@ -12,7 +12,49 @@ const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/basecontroller")
 const inventoryRoute = require("./routes/inventoryroute")
+const accountRoute = require('./routes/registration_and_login')
 const utilities = require("./utilities/")
+/**require statement fror database connection and session */
+const session = require("express-session")
+const pool = require("./database")
+/**body parser function to inform the application of the data being sent to it */
+const bodyParser = require("body-parser")
+
+
+
+/**middleware for the express session setup */
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session)) ({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.session_secret,
+    resave: true,
+    saveUninitialized: true,
+    name: "sessionId",
+  })
+)
+
+
+
+/**middleware flash message setup 
+ * using the connect-flash package and the express-messages to display messages to the user
+ * This is used to display messages to the user after a successful action or an error.
+ */
+app.use(require("connect-flash")())
+app.use(function(req, res, next) {
+  res.locals.messages = require('express-messages')(req,res)
+  next()
+})
+
+/**middleware function to handle the data from the form being sent over from the registration */
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
+
+
+
 
 
 
@@ -39,6 +81,8 @@ app.use(static)
 app.get('/',utilities.errorHandling(baseController.renderHomePage))
 /**route to the inventory page */
 app.use('/inv', inventoryRoute)
+/**route to the account page */
+app.use('/account', accountRoute)
 /**route for a 404 error */
 app.use(async (req,res,next) => {
   next({

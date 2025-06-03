@@ -97,6 +97,48 @@ utilities.buildcarDetailDisplay = async function (data) {
 }
 
 
+/**function to build html login forms using POST as method */
+utilities.loginforms = async function () {
+  let forms = `
+  <form action="/login" method="POST" class="login-form">
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    
+    <button type="submit">Login</button>
+    <button type="button" onclick="window.location.href='/account/register'">Register</button>
+  </form>
+  `
+
+  return forms;
+}
+
+
+utilities.registrationforms = async function () {
+  let forms = `
+     <form action="/account/register" method="POST">
+      <label for="firstname">First Name</label>
+      <input type="text" name="first_name" id="firstname" required />
+
+      <label for="lastname">Last Name</label>
+      <input type="text" name="last_name" id="lastname" required />
+
+      <label for="email">Email Address</label>
+      <input type="email" name="account_email" id="email" required />
+
+      <label for="password">Password</label>
+      <input type="password" name="account_password" id="password" required minlength="8"/>
+
+      <button type="submit">Create Account</button>
+      <button type="button" onclick="window.location.href='/account/login'">Login</button>
+    </form>
+  `
+
+  return forms;
+}
+
 /**robust error handler for the web application */
 utilities.errorHandling = fn => (req,res,next) => Promise.resolve(fn
   (req,res,next)).catch(next)
