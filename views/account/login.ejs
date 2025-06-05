@@ -2,6 +2,15 @@
 <% if (title) { %>
     <h1><%= title %></h1>
      <%- messages() %>
+     
+  <% if (error) { %>
+    <ul class="notice">
+      <% error.array().forEach(err => { %>
+        <li><%= err.msg %></li>
+      <% }) %>
+    </ul>
+  <% } %>
+
     <%- form %>
 <% } else {
     res.redirect('/')

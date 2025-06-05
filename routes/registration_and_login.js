@@ -13,6 +13,17 @@ const registrationValidation = require('../utilities/account-validation')
 router.get('/login',utilities.errorHandling(accountController.renderLoginPage))
 router.get('/register', utilities.errorHandling(accountController.renderRegistrationPage))
 
+
+/**add a router post to handle the login data sent */
+router.post('/login',
+    // (req,res) => {
+    //     res.status(200).send('Login Process')
+    // }
+    registrationValidation.loginValidationRules(),
+    registrationValidation.validateLogin,
+    utilities.errorHandling(accountController.loginAccount)
+)
+
 /**add a router post to handle the data sent from the registration forms */
 router.post('/register',
     registrationValidation.validationRules(),

@@ -6,13 +6,14 @@
 
 const utilities = require('.')
 const { body, validationResult } = require('express-validator');
+const model = require('../models/accountmodel.js')
 const validator = {}
 
 /**this function is used to set the rules for validation form data */
 validator.validationRules = () => {
     return [
        // firstname is required and must be string
-      body("account_firstname")
+      body("first_name")
         .trim()
         .escape()
         .notEmpty()
@@ -20,7 +21,7 @@ validator.validationRules = () => {
         .withMessage("Please provide a first name."), // on error this message is sent.
   
       // lastname is required and must be string
-      body("account_lastname")
+      body("last_name")
         .trim()
         .escape()
         .notEmpty()
@@ -34,7 +35,14 @@ validator.validationRules = () => {
       .notEmpty()
       .isEmail()
       .normalizeEmail() // refer to validator.js docs
-      .withMessage("A valid email is required."),
+      .withMessage("A valid email is required.")
+      /**create a custom email validation logic to be used. */
+      .custom(async(account_email) => {
+        const existingEmail = await model.chceckExisitingEmail(account_email);
+        if (existingEmail > 0) {
+          throw new Error("Email already exists. Please login or use a different email.");
+        }
+      }),
   
       // password is required and must be strong password
       body("account_password")
@@ -55,7 +63,8 @@ validator.validationRules = () => {
 
 /**this function checks the data and returns errors or continues registration */
 validator.validateRegistration = async function (req, res, next) {
-    const {account_firstname, account_lastname, account_email, account_password} = req.body;
+    const submited = {first_name, last_name, account_email, account_password} = req.body;
+    console.log("Registration Data:", req.body);
     let  error = []
 
     error = validationResult(req);
@@ -67,16 +76,79 @@ validator.validateRegistration = async function (req, res, next) {
             error,
             title: 'Register',
             nav,
-            account_firstname,
-            account_lastname,
+            first_name,
+            last_name,
             account_email,
-            form
+            form,
         });
 
         return;
     }
 
     next()
+}
+
+
+
+/**forms validation for login. start with the email validation and then to password and set the rules needed
+ * this function is used to set the rules for validation form data
+ */
+validator.loginValidationRules = () => {
+    return [
+        // valid email is required and cannot already exist in the DB
+        body("email")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isEmail()
+            .normalizeEmail() // refer to validator.js docs
+            .withMessage("A valid email is required.")
+            /**create a custom email validation logic to be used. */
+            .custom(async (email) => {
+                const existingEmail = await model.chceckExisitingEmail(email);
+                if (existingEmail === 0) {
+                    throw new Error("Email does not exist. Please register or use a different email.");
+                }
+            }),
+
+        // password is required and must be strong password
+        body("password")
+            .trim()
+            .notEmpty()
+            .withMessage("Password is required.")
+            .custom(async (password) => {
+              const passwordCheck = await model.checkPassword(password)
+              if (passwordCheck === 0) {
+                throw new Error("Password is incorrect. Please try again.");
+              }
+            })
+    ];
+}
+
+
+/**check the data being sent and valdiate before moving to login */
+validator.validateLogin = async function (req, res, next) {
+  const {email, account_password} = req.body;
+  console.log("Login Data:", req.body);
+
+  let error = []
+  error = validationResult(req);
+  if (!error.isEmpty()) {
+    let nav = await utilities.getNavigations()
+    /**building the forms from the utility section */
+    let form = await utilities.loginforms()
+    res.render('account/login', {
+      error,
+      title: 'Login',
+      nav,
+      email,
+      form,
+    });
+
+    return;
+  }
+
+  next()
 }
 
 module.exports = validator;

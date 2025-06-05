@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
 
 /**middleware function to handle the data from the form being sent over from the registration */
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 
