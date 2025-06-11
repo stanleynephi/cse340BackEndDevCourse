@@ -193,8 +193,351 @@
   }
 
   
+.login_forms {
+  width: fit-content;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+
+  background: rgba(149, 196, 245, 0.25); /* same soft blue glass look */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login_forms label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.login_forms label input {
+  height: 2rem;
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.login_forms label input:focus {
+  border-left: 4px solid yellow;
+}
+
+.login_forms label input:required:valid {
+  border-left: 4px solid green;
+}
+
+.login_forms div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: 20rem;
+}
+
+.login_forms div > button {
+  width: 20rem;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.login_forms div > button:hover {
+  background-color: #0056b3;
+}
+
+.login_forms div > button:active {
+  background-color: #004494;
+  transform: scale(0.98);
+}
+
+
+
+
+.registration_forms {
+  width: fit-content;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+
+  background: rgba(149, 196, 245, 0.25); /* Soft blue glass tint */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.registration_forms label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.registration_forms label input {
+  height: 2rem;
+  width: 20rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.registration_forms label input:focus {
+  border-left: 4px solid yellow;
+}
+
+.registration_forms label input:required:valid {
+  border-left: 4px solid green;
+}
+
+/* Buttons */
+.registration_forms div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: fit-content;
+}
+
+.registration_forms div > button {
+  background-color: #007BFF;
+  width: 20rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.registration_forms div > button:hover {
+  background-color: #0056b3;
+}
+
+.registration_forms div > button:active {
+  background-color: #004494;
+  transform: scale(0.98);
+}
   
-  
-  
+
+.inv_management {
+  width: fit-content;
+  margin: 2rem auto;
+  padding: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(149, 196, 245, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+}
+
+.inv_management button {
+  background-color: #007BFF;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1rem;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  width: 100%;
+}
+
+.inv_management button a {
+  color: white;
+}
+
+.inv_management button:hover {
+  background-color: #0056b3;
+}
+
+.inv_management button:active {
+  background-color: #004494;
+  transform: scale(0.98);
+}
+
+
+.inventory_forms {
+  width: fit-content;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #95c4f586;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.inventory_forms label {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  font-weight: bold;
+  width: 100%;
+}
+
+.inventory_forms input,
+.inventory_forms textarea,
+.inventory_forms select {
+  height: 2rem;
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.inventory_forms textarea {
+  min-height: 4rem;
+  resize: vertical;
+}
+
+.inventory_forms input:focus,
+.inventory_forms textarea:focus,
+.inventory_forms select:focus {
+  border-left: 4px solid yellow;
+}
+
+.inventory_forms input:required:valid {
+  border-left: 4px solid green;
+}
+
+.inventory_forms div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.inventory_forms button, .inventory_forms button > a {
+  background-color: #007BFF;
+  width: fit-content;
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.inventory_forms button:hover {
+  background-color: #0056b3;
+}
+
+.inventory_forms button:active {
+  transform: scale(0.97);
+  background-color: #004080;
+}
+
+
+.classification_forms {
+  width: fit-content;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #95c4f586;
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.classification_forms label {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  font-weight: bold;
+  width: 100%;
+}
+
+.classification_forms input {
+  height: 2rem;
+  width: 20rem;
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.classification_forms input:focus {
+  border-left: 4px solid yellow;
+}
+
+.classification_forms input:required:valid {
+  border-left: 4px solid green;
+}
+
+.classification_forms button {
+  width: 100%;
+  background-color: #007BFF;
+  text-align: center;
+  font-weight: bold;
+  font-size: large;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease-in-out;
+}
+
+.classification_forms button:hover {
+  background-color: #0056b3;
+}
+
+.classification_forms button:active {
+  transform: scale(0.97);
+  background-color: #004080;
+}
+
+.classification_forms button a {
+  color: white;
+  text-decoration: none;
+}
+
   
 }

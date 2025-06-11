@@ -1,0 +1,17 @@
+<!--creating a form using ejs templates-->
+<% if (title) { %>
+    <h1><%= title%> </h1>
+    <%= message  %>
+    <form action="/inv/management" method="post" class="inv_management">
+        <!--button to add new classification-->
+        <button>
+            <a href="/inv/management/addclassification">Add Classifications</a>
+        </button>
+        <!--add new inventory-->
+        <button>
+            <a href="/inv/management/addinventory">Add New Item to Inventory</a>
+        </button>
+    </form>
+<% } else {
+    res.redirect('/')
+} %>

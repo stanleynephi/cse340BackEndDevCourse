@@ -10,7 +10,7 @@
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "cse340backendDevcourse",
-            "connectString": "postgresql://cse340backenddevelopmentdatabase_user:A8mo4kophkn0aV1AmNOJWfZeHVeWSBk7@dpg-d0d6nrk9c44c739ttbfg-a.oregon-postgres.render.com/cse340backenddevelopmentdatabase"
+            "connectString": "postgresql://cse340database_h02a_user:TvXP2cWMT3TvFAYGgel8uGHsBZ6mGh4V@dpg-d0loqb7fte5s739nsf40-a.oregon-postgres.render.com/cse340database_h02a"
         }
     ]
 }

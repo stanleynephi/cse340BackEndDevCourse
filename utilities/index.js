@@ -69,6 +69,27 @@ utilities.buildgridDisplay = async function (data){
   return grid
 }
 
+
+utilities.buildClassificationList = async function (classification_id = null) {
+    let data = await inventoryModel.inventoryClassifications()
+    let classificationList =
+      '<select name="classification_id" id="classificationList" required>'
+    classificationList += "<option value=''>Choose a Classification</option>"
+    data.rows.forEach((row) => {
+      classificationList += '<option value="' + row.classification_id + '"'
+      if (
+        classification_id != null &&
+        row.classification_id == classification_id
+      ) {
+        classificationList += " selected "
+      }
+      classificationList += ">" + row.classification_name + "</option>"
+    })
+    classificationList += "</select>"
+    return classificationList
+}
+
+
 /**function for structing the detail view for the website.*/
 utilities.buildcarDetailDisplay = async function (data) {
   let car = data.rows[0]
@@ -100,15 +121,21 @@ utilities.buildcarDetailDisplay = async function (data) {
 /**function to build html login forms using POST as method */
 utilities.loginforms = async function () {
   let forms = `
-  <form action="/account/login" method="POST" class="login-form">
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
+  <form action="/account/login" method="POST" class="login_forms">
+    <label for="email">
+      Email:
+      <input type="email" id="email" name="email" required>
+    </label>
     
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+    <label for="password">
+      Password:
+      <input type="password" id="password" name="password" required>
+    </label>
     
-    <button type="submit">Login</button>
-    <button type="button" onclick="window.location.href='/account/register'">Register</button>
+    <div>
+      <button type="submit">Login</button>
+      <button type="button" onclick="window.location.href='/account/register'">Register</button>
+    </div>
   </form>
   `
 
@@ -119,21 +146,34 @@ utilities.loginforms = async function () {
 utilities.registrationforms = async function () {
   /**create the forms for the registration page using POST as method */
   let forms = `
-  <form action="/account/register" method="POST">
-    <label for="firstname">First Name</label>
+  <form action="/account/register" method="POST" class="registration_forms">
+    <label for="firstname">
+    First Name
     <input type="text" name="first_name" id="firstname" required/>
+    </label>
 
-    <label for="lastname">Last Name</label>
+    <label for="lastname">
+    Last Name
     <input type="text" name="last_name" id="lastname" required />
+    </label>
+    
 
-    <label for="email">Email Address</label>
+    <label for="email">
+    Email Address
     <input type="email" name="account_email" id="email"  required />
+    </label>
+    
 
-    <label for="password">Password</label>
+    <label for="password">
+    Password
     <input type="password" name="account_password" id="password" required minlength="8"/>
+    </label>
+    
 
-    <button type="submit">Create Account</button>
-    <button type="button" onclick="window.location.href='/account/login'">Login</button>
+    <div>
+        <button type="submit">Create Account</button>
+        <button type="button" onclick="window.location.href='/account/login'">Login</button>
+    </div>
   </form>
 `;
 

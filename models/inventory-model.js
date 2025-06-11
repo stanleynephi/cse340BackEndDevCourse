@@ -51,5 +51,49 @@ async function getInventoryItemDetails(inv_id) {
     }
 }
 
+
+/**register classification */
+async function registerclassification(classification_name){
+    try {
+        const query = `INSERT INTO public.classification (classification_name) VALUES ($1)`
+        const result = await pool.query(query, [classification_name]);
+        console.log("Classification registered successfully:", result);
+    } catch (error) {
+        console.error("Error registering classification:", error);
+        throw error; // Re-throw the error to be handled by the calling function
+    }
+}
+
+
+/**function to check if the classification already exists */
+async function checkClassificationExists(classification_name) {
+    try {
+        const result = await pool.query(
+            `SELECT * FROM public.classification WHERE classification_name = $1;`,
+            [classification_name]
+        );
+        return result.rowCount > 0; // Return true if classification exists, false otherwise
+    } catch (error) {
+        console.error("Error checking classification existence:", error);
+        throw error; // Re-throw the error to be handled by the calling function
+    }
+}
+
+
+/**function to register the inventory item */
+async function registerInventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) {
+    try {
+        //sql insert query
+        const query = `INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`;
+        const result = await pool.query (query, [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id])
+        console.log('Vehicle Registered Successfully:', result)
+        return result; // Return the result of the query
+    } catch (error) {
+        console.error('Error vehicle could not be registered:', error)
+        throw error; // Re-throw the error to be handled by the calling function
+    }
+    
+}
+
 /**export the function once done */
-module.exports = { inventoryClassifications, getInventoryByClassification, getInventoryItemDetails };
+module.exports = { inventoryClassifications, getInventoryByClassification, getInventoryItemDetails, checkClassificationExists ,registerclassification, registerInventory};
