@@ -17,7 +17,7 @@ async function registerAccount(account_firstname, account_lastname, account_emai
     } catch (error) {
         console.error("Error registering account:", error);
         throw error; // Re-throw the error to be handled by the calling function
-        return error.message
+
         
     }
 }
@@ -40,26 +40,25 @@ async function chceckExisitingEmail(account_email) {
 }
 
 
-/**function to check the password  */
-async function checkPassword(account_password) {
-    /**try catch methods to handle the errors and display them */
-    try{
-        /**sql query to check the password with that in the system */
-        const query = `SELECT * FROM public.account WHERE account_password = $1`;
+//get the account details based of the email the user entered
+async function getAccountbyEmail(account_email) {
+    try {
+        /**sql query to check if the email exists in the database */
+        const query = `SELECT account_id, account_firstname, account_lastname, account_email, account_password, account_type FROM public.account WHERE account_email = $1;`;
         /**execute the query using the pool */
-        const password = await pool.query(query, [account_password])
-        /**return a row count with the result */
-        return password.rowCount;
-    }
-    catch (error) {
-        console.error("Error checking password:", error);
+        const email = await pool.query(query, [account_email]);
+        /**return the result of the query */
+        console.log(email.rows[0])
+        return email.rows[0]
+    } catch (error) {
+        console.error("Error checking existing email:", error);
         throw error; // Re-throw the error to be handled by the calling function
     }
     
 }
 
 /**export the module function registerAccount */
-module.exports = { registerAccount, chceckExisitingEmail, checkPassword };
+module.exports = { registerAccount, chceckExisitingEmail, getAccountbyEmail };
 /**this model file is used to process the registration forms by the user 
  * establish a connection to the database using the pool
 */

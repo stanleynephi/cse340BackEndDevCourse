@@ -96,7 +96,7 @@ validator.validateRegistration = async function (req, res, next) {
 validator.loginValidationRules = () => {
     return [
         // valid email is required and cannot already exist in the DB
-        body("email")
+        body("account_email")
             .trim()
             .escape()
             .notEmpty()
@@ -112,16 +112,10 @@ validator.loginValidationRules = () => {
             }),
 
         // password is required and must be strong password
-        body("password")
+        body("account_password")
             .trim()
             .notEmpty()
             .withMessage("Password is required.")
-            .custom(async (password) => {
-              const passwordCheck = await model.checkPassword(password)
-              if (passwordCheck === 0) {
-                throw new Error("Password is incorrect. Please try again.");
-              }
-            })
     ];
 }
 

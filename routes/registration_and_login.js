@@ -31,5 +31,19 @@ router.post('/register',
     utilities.errorHandling(accountController.registerAccount))
 
 
+
+//account routing after verification
+router.get('/',
+    //verify if user has access to this page using the function in the utility file
+    utilities.checkLogin,
+    utilities.errorHandling(accountController.managementView)
+)
+
+
+//router to edit account details
+router.get('/updateprofile',
+    utilities.checkLogin,
+    utilities.errorHandling(accountController.updateProfile)
+)
 /**export the router */
 module.exports = router

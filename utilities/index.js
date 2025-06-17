@@ -4,6 +4,9 @@
 /**bring the inventory-model file into scope and create an object for the utility */
 const inventoryModel = require('../models/inventory-model');
 const utilities = {};
+//require statements for the jsonwebtoken
+const jwt = require ('jsonwebtoken')
+require('dotenv').config()
 
 /**getNavigation function to be used across all part of the web application. */
 utilities.getNavigations = async function (req,res,next) {
@@ -73,7 +76,7 @@ utilities.buildgridDisplay = async function (data){
 utilities.buildClassificationList = async function (classification_id = null) {
     let data = await inventoryModel.inventoryClassifications()
     let classificationList =
-      '<select name="classification_id" id="classificationList" required>'
+      '<select name="classification_id" id="classificationList" class="classificationList"  required>'
     classificationList += "<option value=''>Choose a Classification</option>"
     data.rows.forEach((row) => {
       classificationList += '<option value="' + row.classification_id + '"'
@@ -124,12 +127,12 @@ utilities.loginforms = async function () {
   <form action="/account/login" method="POST" class="login_forms">
     <label for="email">
       Email:
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="account_email" required>
     </label>
     
     <label for="password">
       Password:
-      <input type="password" id="password" name="password" required>
+      <input type="password" id="password" name="account_password" required>
     </label>
     
     <div>
@@ -186,6 +189,70 @@ utilities.registrationforms = async function () {
 /**robust error handler for the web application */
 utilities.errorHandling = fn => (req,res,next) => Promise.resolve(fn
   (req,res,next)).catch(next)
+
+
+
+//check the jwt
+utilities.checkjwtToken = (req, res, next) => {
+
+  //check for the cookie using an if and else
+  if(req.cookies.jwt) {
+    jwt.verify(
+      req.cookies.jwt,
+      process.env.accessToken,
+      function (err, accountData){
+        if (err) {
+          req.flash('Please log in')
+          res.clearCookie('jwt')
+          return res.redirect('/account/login')
+        }
+        res.locals.accountData = accountData
+        res.locals.loggedin = true
+        next ()
+      }
+    )
+  }
+
+  else{
+    res.locals.loggedin = false
+    next()
+  }
+}
+  
+
+//check to see if a cookie exists already for this user before granting access to some part of the application
+utilities.checkLogin = (req,res, next) => {
+  if(res.locals.loggedin) {
+    /**provide access to the management view for this user */
+    next()
+  }
+
+  else {
+    req.flash('notice','Please log in before')
+    return res.redirect('/account/login')
+  }
+}
+
+
+
+utilities.checkEmployeeOrAdmin = (req, res, next) => {
+  const token = req.cookies.jwt;
+  if (!token) {
+    return res.status(403).render("account/login", {
+      title: "Login",
+      message: "You must be logged in to access this page."
+    });
+  }
+
+  jwt.verify(token, process.env.accessToken, (err, clientData) => {
+    if (err || (clientData.account_type !== "admin")) {
+      return res.status(403).redirect("/account/login");
+    }
+    res.locals.accountData = clientData;
+    next();
+  });
+}
+
 
 /**export the module. */
 module.exports = utilities

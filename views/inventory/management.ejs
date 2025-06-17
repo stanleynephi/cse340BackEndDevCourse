@@ -12,6 +12,18 @@
             <a href="/inv/management/addinventory">Add New Item to Inventory</a>
         </button>
     </form>
+
+    <!--classification list-->
+    <h2>Manage Inventory</h2>
+    <%-classificationlist %>
+
+    <!--html table to render the result of the query-->
+    <table id="inventoryDisplayTable"></table>
+
+    <!--no script function that show when there is no javascript-->
+    <noscript>Please enable javascript--</noscript>
+    <!--javascript handler and file-->
+    <script src="/js/inventory.js"></script>
 <% } else {
     res.redirect('/')
 } %>

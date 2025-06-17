@@ -73,11 +73,16 @@ inventorycontroller.buildmanagementView = async function (req,res,next) {
     /**get the page components, the nav from the utilities and other stuff that will be needed */
     try {
         let nav = await utilities.getNavigations()
+        //use the classification list to create a drop down select
+        let classificationlist = await utilities.buildClassificationList()
+        let error = []
 
         res.render('./inventory/management', {
             title: 'Management View',
             nav,
             message: 'This is the management view. Here you can manage your inventory items.',
+            classificationlist,
+            error
         })
         
     } catch (error) {
@@ -226,13 +231,177 @@ inventorycontroller.registerInventory = async function (req, res, next) {
 }
 
 
+//function to deliver the inventory JSON
+inventorycontroller.getInventoryJSON = async (req,res,next) => {
+    const classification_id = parseInt(req.params.classification_id)
+    const invData = await inventorymodel.getInventoryByClassification(classification_id)
+    console.log(invData.rows)
+    if(invData.rows) {
+        return res.json(invData.rows)
+    }
+    else{
+        next(new Error ("No Data returned"))
+    }
+}
+
+
+//query the database to edit the inventory in the database
+inventorycontroller.editinventoryinformations = async function (req, res, next) {
+    //navigation components
+    let nav = await utilities.getNavigations()
+    let items_id = parseInt(req.params.classification_id)
+    let inventoryItems = await inventorymodel.getInventoryItemDetails(items_id)
+        let classifications = await utilities.buildClassificationList(inventoryItems.rows[0].classification_id);
+
+    const itemName = `${inventoryItems.rows[0].inv_make} ${inventoryItems.rows[0].inv_model}`
+    console.log(itemName)
+
+
+    //try catch statement to handle the errors that may occur
+    try {
+        
+        //render the components together
+        res.render('./inventory/updateinventory', {
+            title: 'Update' + itemName + 'Details',
+            nav,
+            classifications,
+            errors: null,
+            message:'Update' + itemName + 'Details',
+            inv_id: inventoryItems.rows[0].inv_id,
+            inv_make: inventoryItems.rows[0].inv_make,
+            inv_model: inventoryItems.rows[0].inv_model,
+            inv_year: inventoryItems.rows[0].inv_year,
+            inv_description: inventoryItems.rows[0].inv_description,
+            inv_image: inventoryItems.rows[0].inv_image,
+            inv_thumbnail: inventoryItems.rows[0].inv_thumbnail,
+            inv_price: inventoryItems.rows[0].inv_price,
+            inv_miles: inventoryItems.rows[0].inv_miles,
+            inv_color: inventoryItems.rows[0].inv_color,
+            classification_id: inventoryItems.rows[0].classification_id
+        })
+
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 
 
+inventorycontroller.updateInventory = async function (req, res, next) {
+  let nav = await utilities.getNavigations()
+  const {
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id,
+  } = req.body
+  const updateResult = await inventorymodel.updateInventory(
+    inv_id,  
+    inv_make,
+    inv_model,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_year,
+    inv_miles,
+    inv_color,
+    classification_id
+  )
+
+  if (updateResult) {
+    const itemName = updateResult.inv_make + " " + updateResult.inv_model
+    req.flash("notice", `The ${itemName} was successfully updated.`)
+    res.redirect("/")
+  } else {
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
+    const itemName = `${inv_make} ${inv_model}`
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).render("inventory/updateinventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect: classificationSelect,
+    errors: null,
+    inv_id,
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+    })
+  }
+}
 
 
+//delete data from the database
+inventorycontroller.deleteInventoryView = async function (req, res, next) {
+    let nav = utilities.getNavigations()
+    let inv_id = parseInt(req.params.classification_id)
+    let model = await inventorymodel.getInventoryItemDetails(inv_id)
+    let data = model.rows[0]
+    let classifications = await utilities.buildClassificationList(data)
+    console.log(data)
+
+    try{
+        
+        //render this on the delete page
+        res.render(
+            './inventory/deleteitem', {
+            title: 'Delete',
+            nav,
+            classifications,
+            errors: null,
+            message:'Update',
+            inv_id: data.inv_id,
+            inv_make: data.inv_make,
+            inv_model: data.inv_model,
+            inv_year: data.inv_year,
+            inv_description: data.inv_description,
+            inv_image: data.inv_image,
+            inv_thumbnail: data.inv_thumbnail,
+            inv_price: data.inv_price,
+            inv_miles: data.inv_miles,
+            inv_color: data.inv_color,
+            classification_id: data.classification_id
+            }
+        )
+    }
+    catch(error){
+        console.log(error)
+    }
+}
 
 
+//delete the item provided
+inventorycontroller.deleteinventory = async function (req, res, next) {
+    const {
+        inv_id
+    } = req.body
+
+    const deleteItems = await inventorymodel.deleteInventory(
+        inv_id
+    )
+
+    if (deleteItems) {
+    req.flash("success", `The delete was successful`)
+    res.redirect("/")
+  } else {
+    req.flash("notice", "Sorry, the insert failed.")
+    res.status(501).redirect('/')
+  }
+}
 
 
 

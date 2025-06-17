@@ -1,0 +1,72 @@
+<!--this contains the classifications details view for the
+cars users look for.-->
+<% if (title) { %>
+    <h1><%= title%> </h1>
+    <%- message  %>
+
+<form id="inventoryupdate_forms" class="inventoryupdate_forms" method="post" action="/inv/management/delete">
+   
+    <label for="inv_make">
+        Car Make:
+        <input type="text" id="inv_make" name="inv_make" value="<%=inv_make%>" readonly>
+    </label>
+   
+    <label for="inv_model">
+        Car Model:
+        <input type="text" id="inv_model" name="inv_model" value="<%= inv_model %>" readonly>
+    </label>
+    
+    <label for="inv_year">
+        Car Year:
+        <input type="text" id="inv_year" name="inv_year" value="<%= inv_year %>" readonly>
+    </label>
+    
+    <label for="inv_description">
+        Car Description:
+        <textarea name="inv_description" id="inv_description" readonly><%= inv_description %></textarea>
+    </label>
+    
+    <label for="inv_image">
+        Car Image URL:
+        <input type="text" id="inv_image" name="inv_image" value="<%= inv_image %>" readonly>
+    </label>
+    
+    <label for="inv_thumbnail">
+        Car Thumbnail URL:
+        <input type="text" id="inv_thumbnail" name="inv_thumbnail" value="<%= inv_thumbnail %>" readonly>
+    </label>
+    
+    <label for="inv_price">
+        Car Price:
+        <input type="text" id="inv_price" name="inv_price" value="<%= inv_price %>" readonly>
+    </label>
+
+    <label for="inv_miles">
+        Car Miles:
+        <input type="text" id="inv_miles" name="inv_miles" value="<%= inv_miles %>" readonly>
+    </label>
+   
+    <label for="inv_color">
+        Car Color:
+        <input type="text" id="inv_color" name="inv_color" value="<%= inv_color %>" readonly>
+    </label>
+   
+    <label for="inv_classification">
+        Car Classification:
+        <!-- Disable the select dropdown to make it read-only -->
+        <%- classifications.replace('<select', '<select disabled') %>
+    </label>
+
+    <div>
+        <button type="submit" name="submit" value="Delete Vehicle">Delete Item</button>
+        <input type="hidden" name="inv_id" value="<%= inv_id %>">
+        <button>
+            <a href="/inv/management">Back to Management</a>
+        </button>
+    </div>
+</form>
+
+<% } else {
+    res.redirect('/')
+} %>
+

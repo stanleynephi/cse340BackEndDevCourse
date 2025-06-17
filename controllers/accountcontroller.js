@@ -8,6 +8,9 @@ const utilities = require('../utilities/')
 const model = require('../models/accountmodel.js')
 /**this is the bcryptsjs for hashing the password for the node application */
 const bcrypt = require('bcryptjs')
+//require the jsonwebtoken to use for the login
+const jwt = require('jsonwebtoken')
+require('dotenv').config()
 /**create the account controller object */
 const accountController = {}
 
@@ -99,34 +102,83 @@ accountController.registerAccount = async function (req,res) {
 /**function to handle the account login process. */
 accountController.loginAccount = async function(req,res) {
   let nav = await utilities.getNavigations()
-  const { email, account_password } = req.body
+  const { account_email, account_password } = req.body
 
-  /**try catch to handle the errors and output it in the teminal as needed */
-  try {
-    /**check if the email exists in the database */
-    const existingEmail = await model.chceckExisitingEmail(email)
+  /**check if the email exists in the database */
+  const existingEmail = await model.getAccountbyEmail(account_email)
+  console.log(existingEmail)
+  
     if (existingEmail === 0) {
       req.flash('error', 'Email does not exist. Please register or use a different email.')
       return res.status(401).redirect('/account/login')
     }
 
-    /**check if the password is correct */
-    const passwordMatch = await model.checkPassword(account_password)
-    if (passwordMatch === 0) {
-      req.flash('error', 'Incorrect password. Please try again.')
-      return res.status(401).redirect('/account/login')
+  try {
+    /**password verification and proccess */
+    if(await bcrypt.compare(account_password, existingEmail.account_password)) {
+      delete existingEmail.account_password
+      /**creating the jwt token and for the proccessing */
+      const accessToken = jwt.sign(existingEmail, process.env.accessToken, { expiresIn: 3600 * 1000})
+
+      if(process.env.NODE_ENV === "development"){
+        res.cookie ('jwt', accessToken, {httpOnly: true, maxAge: 3600 * 1000})
+      }
+      else {
+        res.cookie ('jwt', accessToken, {httpOnly: true, secure: true, maxAge: 3600 * 1000})
+      }
+
+      return res.redirect ('/account/')
+    }
+    else{
+      req.flash ('message notice', 'please check your credentials and try again')
+      return res.status (401).redirect ('/account/login')
     }
 
-    /**if the email and password are correct then redirect to the home page */
-    req.flash('success', 'Login successful. Welcome back!')
-    res.status(200).redirect('/')
-    
-  } catch (error) {
+    } 
+  
+  catch (error) {
     console.error("Error in login:", error)
     req.flash('error', 'An error occurred while logging in. Please try again.')
     res.redirect('/account/login')
+    throw new Error('Error in login')
   }
 }
+
+//process the request for the managment view and render it
+accountController.managementView = async function (req,res){
+  let nav = await utilities.getNavigations()
+
+  //put it in the view.
+  req.flash('notice', 'You are logged-in Successfully.')
+  res.render('account/management', {
+    title: 'Account Management',
+    nav,
+    error: null,
+  })
+}
+
+
+
+//update profiles views and functions
+accountController.updateProfie = async function(req,res,next) {
+  //needed components
+  let nav = await utilities.getNavigations()
+  let account_id = parseInt(req.params.account_id)
+  let account = await model.getAccountById (account_id)
+
+  try {
+    res.render(
+      './account/updateaccount', {
+        title: 'Update Account',
+        nav,
+        account
+      }
+    )
+  } catch (error) {
+    
+  }
+}
+
 
 /**module to export the account controller objects... */
 module.exports = accountController;

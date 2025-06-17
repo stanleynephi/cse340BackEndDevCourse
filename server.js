@@ -19,6 +19,8 @@ const session = require("express-session")
 const pool = require("./database")
 /**body parser function to inform the application of the data being sent to it */
 const bodyParser = require("body-parser")
+//cookie-parser required
+const cookieParser = require("cookie-parser")
 
 
 
@@ -51,6 +53,10 @@ app.use(function(req, res, next) {
 /**middleware function to handle the data from the form being sent over from the registration */
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }));
+//use the cookie parser in the application
+app.use(cookieParser())
+app.use(utilities.checkjwtToken)
+
 
 
 
